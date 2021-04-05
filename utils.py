@@ -1,5 +1,7 @@
 import pickle, uuid, os, time
 from model import Message
+from tkinter import filedialog
+from tkinter import Tk
 
 clients = []
 nicknames = []
@@ -46,7 +48,8 @@ def logout(client):
 
 # envia o arquivo do cliente remetente para o servidor
 def send_file_to_server(client, nickname):
-    file_path = input('Informe o arquivo [*Apenas jpg, png, gif e txt]: ')
+    #file_path = input('Informe o arquivo [*Apenas jpg, png, gif e txt]: ')
+    file_path = filedialog.askopenfilename(initialdir = "/",title = "Escolha um arquivo",filetypes = (("jpeg files","*.jpg"),("png files","*.png*"),("gif files","*.gif"),("txt files","*.txt")))
 
     # valida tipo do arquivo
     if file_path.lower().endswith(('.png', '.jpg', '.gif', '.txt')):
