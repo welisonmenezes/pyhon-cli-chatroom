@@ -1,4 +1,11 @@
 import socket, threading, pickle
+from tkinter import Tk
+
+# suporte para GUI
+root = Tk()
+root.withdraw()
+
+
 from model import Message
 from utils import send_serialized, get_serialized_message, send_file_to_server, client_receive_save_file
 
@@ -46,7 +53,8 @@ def write():
             print('Os comandos disponíveis são:')
             print('-h Ajuda')
             print('-q Sair')
-            print('-f Enivar arquivo')
+            print('-f Enivar arquivo via linha de comando')
+            print('-o Enivar arquivo via interface gráfica')
             continue
 
         if user_entry == '-q':
@@ -54,7 +62,12 @@ def write():
             break
 
         elif user_entry == '-f':
-            send_file_to_server(client, nickname)
+            send_file_to_server(client, nickname, 'cmd')
+
+        elif user_entry == '-o':
+            root.call('wm', 'attributes', '.', '-topmost', True)
+            root.update()
+            send_file_to_server(client, nickname, 'gui')
 
         else:
             message = f'{nickname}: {user_entry}'
@@ -63,3 +76,4 @@ def write():
 
 threading.Thread(target=receive).start()
 threading.Thread(target=write).start()
+root.mainloop()
